@@ -6,13 +6,13 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:57:29 by yassine           #+#    #+#             */
-/*   Updated: 2023/06/23 23:06:35 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:43:27 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void ft_fill_params_slive(t_philo *data, char **av, int i)
+void ft_fill_params_slive(t_data *data, char **av, int i)
 {
     if (i == 1)
         data->nb_philo = ft_atoi(av[i]);
@@ -28,7 +28,7 @@ void ft_fill_params_slive(t_philo *data, char **av, int i)
         data->nb_philo = ft_atoi(av[i]);    
 }
 
-void ft_fill_params_master(char **av, t_philo *data)
+void ft_fill_params_master(char **av, t_data *data)
 {
     int i;
     
@@ -44,21 +44,18 @@ void ft_fill_params_master(char **av, t_philo *data)
         handl_errors(1);
 }
 
-void ft_parser(char **av, t_philo *data)
+void ft_parser(char **av, t_data *data)
 {
-    unsigned int i;
+    int i;
 
     i = 0;
     ft_fill_params_master(av, data);
-    data->forks = malloc(sizeof(int) * data->nb_philo);
-    data->philo = malloc(sizeof(int) * data->nb_philo);
-    if (!data->forks || !data->philo)
-        handl_errors(2);
     while(i < data->nb_philo)
     {
-        data->forks[i] = 1;
-        data->philo[i] = 0;
+        data->fork[i] = 1;
+        data->philo[i].id = i;
+        data->philo[i].data =  data;
         i++;
     }
-      
+    // printf("%d\n", data->philo[1].data->nb_philo);
 }
