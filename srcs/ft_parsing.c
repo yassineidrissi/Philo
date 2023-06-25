@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:57:29 by yassine           #+#    #+#             */
-/*   Updated: 2023/06/24 16:43:27 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/06/25 12:13:23 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,13 @@ void ft_fill_params_slive(t_data *data, char **av, int i)
     if (i == 1)
         data->nb_philo = ft_atoi(av[i]);
     else if (i == 2)
-        data->nb_philo = ft_atoi(av[i]);
+        data->tm_die = ft_atoi(av[i]);
     else if (i == 3)
-        data->nb_philo = ft_atoi(av[i]);
+        data->tm_eat = ft_atoi(av[i]);
     else if (i == 4)
-        data->nb_philo = ft_atoi(av[i]);
-    else if (i == 5)
-        data->nb_philo = ft_atoi(av[i]);  
+        data->tm_sleep = ft_atoi(av[i]);
     else
-        data->nb_philo = ft_atoi(av[i]);    
+        data->nb_meals = ft_atoi(av[i]);    
 }
 
 void ft_fill_params_master(char **av, t_data *data)
@@ -52,7 +50,7 @@ void ft_parser(char **av, t_data *data)
     ft_fill_params_master(av, data);
     while(i < data->nb_philo)
     {
-        data->fork[i] = 1;
+        // data->fork[i] = 1;
         data->philo[i].id = i;
         data->philo[i].data =  data;
         i++;
