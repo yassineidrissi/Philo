@@ -1,4 +1,4 @@
-SRCS = philo.c srcs/ft_parsing.c srcs/errors.c srcs/lib_src.c
+SRCS = philo.c srcs/ft_parsing.c srcs/errors.c srcs/lib_src.c srcs/utils.c
 
 OBJS			= $(SRCS:.c=.o)
 CC				= cc
@@ -7,12 +7,12 @@ CFLAGS			= -g -Wall -Wextra -Werror -I.
 NAME			= philo
 
 %.o : %.c
-		$(CC) $(CFLAGS) -c $< -o $@
+		@$(CC) $(CFLAGS) -c $< -o $@
 
 all:		1337_logo	$(NAME) 
 
 $(NAME):	1337_logo	$(OBJS)
-			cc $(OBJS) -o $(NAME)
+			@cc $(OBJS) -o $(NAME)
 			# @echo "\033[92m✅SO_LONG GENERATED YOU CAN STARTED✅\033[0m"
 			# @echo "🎮 USE ./SO_LONG <MAP FILE NAME> 🎮"
 clean:

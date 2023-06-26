@@ -17,6 +17,12 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <sys/time.h>
+
+# define ERR_USAGE "Usage: ./philo <nb philosophers> <time to die> <time to eat>\
+ <time to sleep> [optional :times each philosopher must eat]\n"
+# define UNLOCK 1
+# define LOCK 0
 typedef struct s_philo
 {
     int id;
@@ -30,9 +36,12 @@ typedef struct s_data
     int nb_meals;
     int tm_sleep;
     int tm_eat;
-    int tm_die;
+    unsigned long tm_die;
+    unsigned long last_meal;
     pthread_t threads[250];    
     pthread_mutex_t fork[250];
+    pthread_mutex_t	meal;
+	pthread_mutex_t	writing;
     t_philo philo[250];
 }t_data;
 

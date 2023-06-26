@@ -55,6 +55,8 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "files.associations": {
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "iomanip": "c",
+    "locale": "c"
   }
 }
