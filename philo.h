@@ -19,6 +19,11 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+# define PHILO_EAT "\033[1;93mis eating 🍝\033[0;39m"
+# define PHILO_SLEEP "\033[1;95mis sleeping 🌙\033[0;39m"
+# define PHILO_THINK "\033[1;90mis thinking 💭\033[0;39m"
+# define PHILO_TAKE_FORK "\033[1;94mhas taken a fork 🍴\033[0;39m"
+# define PHILO_DIE "\033[1;91mdied 💀\033[0;39m"
 # define ERR_USAGE "Usage: ./philo <nb philosophers> <time to die> <time to eat>\
  <time to sleep> [optional :times each philosopher must eat]\n"
 # define UNLOCK 1
@@ -32,6 +37,7 @@ typedef struct s_philo
 
 typedef struct s_data
 {
+    useconds_t init_time;
     int nb_philo;
     int nb_meals;
     int tm_sleep;
@@ -50,7 +56,7 @@ void ft_parser(char ** av, t_data *data);
 void handl_errors(int i);
 void ft_fill_params_master(char **av, t_data *data);
 void ft_fill_params_slive(t_data *data, char **av, int i);
-void* philosopher(void* arg);
+void* start_thread(void* arg);
 void init_threads(t_data * data);
 //********lib_srcs************///
 int ft_isdigit(char c);

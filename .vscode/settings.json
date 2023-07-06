@@ -58,5 +58,6 @@
     "stdlib.h": "c",
     "iomanip": "c",
     "locale": "c"
-  }
+  },
+  "C_Cpp_Runner.useLinkTimeOptimization": false
 }

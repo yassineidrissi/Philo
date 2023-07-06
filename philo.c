@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void* philosopher(void* arg)
+void* start_thread(void* arg)
 {
     t_philo *philo = (t_philo*)arg;
     if (philo->id % 2 == 0)
@@ -35,7 +35,7 @@ void init_threads(t_data * data)
 
     i = -1;
     while (++i < data->nb_philo)
-        pthread_create(data->threads + i, NULL, philosopher, data->philo + i);
+        pthread_create(data->threads + i, NULL, start_thread, data->philo + i);
         // Pass the t_philo struct as the argument to the philosopher function
 
     // Wait for the threads to finish
