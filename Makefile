@@ -5,6 +5,17 @@ CC				= cc
 RM				= rm -f
 CFLAGS			= -g -Wall -Wextra -Werror -I.
 NAME			= philo
+PRINTF = printf
+
+DEFAULT = \033[0;39m
+GRAY = \033[0;90m
+RED = \033[0;91m
+GREEN = \033[0;92m
+YELLOW = \033[0;93m
+BLUE = \033[0;94m
+MAGENTA = \033[0;95m
+CYAN = \033[0;96m
+WHITE = \033[0;97m
 
 %.o : %.c
 		@$(CC) $(CFLAGS) -c $< -o $@
@@ -12,10 +23,11 @@ NAME			= philo
 all:		1337_logo	$(NAME) 
 
 $(NAME):	1337_logo	$(OBJS)
-			@cc $(OBJS) -o $(NAME)
-			# @echo "\033[92m✅SO_LONG GENERATED YOU CAN STARTED✅\033[0m"
-			# @echo "🎮 USE ./SO_LONG <MAP FILE NAME> 🎮"
-clean:
+			@$(CC) $(OBJS) -o $(NAME)
+			@echo "\033[92m✅PHILO GENERATED YOU CAN STARTED✅\033[0m"
+			@$(PRINTF) "\r%100s\r$(GREEN)$(NAME) is up to date!$(DEFAULT)\n"
+
+clean:				
 				@$(RM) $(OBJS) 
 				@echo "\033[31m Delete object files🗑\033[31m"
 			

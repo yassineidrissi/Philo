@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:42:31 by yassine           #+#    #+#             */
-/*   Updated: 2023/06/24 17:39:00 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/07 19:45:23 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
  <time to sleep> [optional :times each philosopher must eat]\n"
 # define UNLOCK 1
 # define LOCK 0
+
 typedef struct s_philo
 {
     int id;
