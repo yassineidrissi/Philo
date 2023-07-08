@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:38:50 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/08 13:25:57 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:39:25 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,23 @@ void ft_sleep(t_philo *philo)
 {
     int i;
 
-    i = 0;
-    while (i < philo->data->tm_sleep)
-    {
-        printf(PHILO_SLEEP);
-        printf(",the philo %d\n", philo->id);
-        usleep(1000);
-        i++;
-    }
+    i = 0; 
+    printf(PHILO_SLEEP);
+    printf("philo %d :i'm sleeping\n", philo->id);
+    ft_usleep(philo->data->tm_sleep);
 }
 
-void ft_think(void)
+void ft_think(t_philo *philo)
 {
     printf(PHILO_THINK);
+    printf("philo %d :i'm thinking\n", philo->id);
+}
+
+void ft_eat(t_philo *philo)
+{
+    printf(PHILO_EAT);
+    printf("philo %d :i'm eating\n", philo->id);
+    ft_usleep(philo->data->tm_eat);
 }
 
 void* start_thread(void* arg)
@@ -39,17 +43,23 @@ void* start_thread(void* arg)
         usleep(3000);
     while(1)
     {
-        pthread_mutex_lock(philo->data->fork + philo->id);
         printf("philo %d :i'm take 1\n", philo->id); 
-        pthread_mutex_lock(philo->data->fork + philo->id + 1);
+        pthread_mutex_lock(&philo->data->fork[philo->id - 1]);
         printf("philo %d :i'm take 2\n", philo->id);
-        usleep(philo->data->tm_eat);//!need to craate my own speep function
-        pthread_mutex_unlock(philo->data->fork + philo->id);
+        if (philo->id == philo->data->nb_philo)
+            pthread_mutex_lock(&philo->data->fork[0]);
+        else
+            pthread_mutex_lock(&philo->data->fork[philo->id]);
+        ft_eat(philo);//!need to craate my own speep function
         printf("philo %d :i'm untake 1\n", philo->id);
-        pthread_mutex_unlock(philo->data->fork + philo->id + 1);
+        pthread_mutex_unlock(&philo->data->fork[philo->id - 1]);
         printf("philo %d :i'm untake 1\n", philo->id);
+        if (philo->id == philo->data->nb_philo)
+            pthread_mutex_unlock(&philo->data->fork[0]);
+        else
+            pthread_mutex_unlock(&philo->data->fork[philo->id]);
         ft_sleep(philo);
-        ft_think();
+        ft_think(philo);
     }
     return NULL;
 }

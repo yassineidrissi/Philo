@@ -12,4 +12,3 @@
 	check the data RACE (with --sanitize=thread)
 ##five  steep:
 	make main thread to check death and numerbers of meals and quit the simulation
-##

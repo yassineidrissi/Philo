@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:42:31 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/07 19:45:23 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/08 14:03:22 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void ft_fill_params_master(char **av, t_data *data);
 void ft_fill_params_slive(t_data *data, char **av, int i);
 void* start_thread(void* arg);
 void init_threads(t_data * data);
+useconds_t get_time(void);
+int ft_usleep(useconds_t time);
 //********lib_srcs************///
 int ft_isdigit(char c);
 int ft_strisdigit(char *str);
