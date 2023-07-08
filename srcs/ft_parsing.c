@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:57:29 by yassine           #+#    #+#             */
-/*   Updated: 2023/06/25 12:13:23 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/08 13:06:37 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void ft_parser(char **av, t_data *data)
         // data->fork[i] = 1;
         data->philo[i].id = i;
         data->philo[i].data =  data;
+        data->philo[i].nb_meals = 0;
         i++;
     }
     // printf("%d\n", data->philo[1].data->nb_philo);
