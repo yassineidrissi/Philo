@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:57:29 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/08 18:27:13 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/08 19:04:41 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ void ft_fill_params_master(char **av, t_data *data)
         handl_errors(1);
 }
 
+void ft_init_mutex(t_data *data)
+{
+    int i;
+
+    i = 0;
+    while(i < data->nb_philo)
+    {
+        pthread_mutex_init(&data->fork[i], NULL);
+        i++;
+    }
+}
+
 void ft_parser(char **av, t_data *data)
 {
     int i;
@@ -51,10 +63,11 @@ void ft_parser(char **av, t_data *data)
     while(i < data->nb_philo)
     {
         // data->fork[i] = 1;
-        data->philo[i].id = i + 1;
+        data->philo[i].id = i;
         data->philo[i].data =  data;
         data->philo[i].nb_meals = 0;
         i++;
     }
+    ft_init_mutex(data);
     // printf("%d\n", data->philo[1].data->nb_philo);
 }
