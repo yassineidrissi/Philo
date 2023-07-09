@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:57:29 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/08 19:04:41 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/09 00:52:08 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,15 @@ void ft_fill_params_slive(t_data *data, char **av, int i)
         data->tm_die = ft_atoi(av[i]);
     else if (i == 3)
         data->tm_eat = ft_atoi(av[i]);
-    else if (i == 4)
+    else if (i == 4 && !av[i + 1])
         data->tm_sleep = ft_atoi(av[i]);
+    else if (i == 4)
+    {
+        data->tm_sleep = ft_atoi(av[i]);
+        data->max_meals = -1;
+    }
     else
-        data->nb_meals = ft_atoi(av[i]);    
+        data->max_meals = ft_atoi(av[i]);    
 }
 
 void ft_fill_params_master(char **av, t_data *data)
@@ -38,7 +43,7 @@ void ft_fill_params_master(char **av, t_data *data)
         else
             ft_fill_params_slive(data, av, i);
     }
-    if (data->nb_philo < 2 || data->nb_philo > 200 || data->nb_meals < 0 || data->tm_die < 0 || data->tm_eat < 0 || data->tm_sleep < 0)
+    if (data->nb_philo < 2 || data->nb_philo > 200 || data->max_meals < 0 || data->tm_die < 0 || data->tm_eat < 0 || data->tm_sleep < 0)
         handl_errors(1);
 }
 
@@ -52,6 +57,11 @@ void ft_init_mutex(t_data *data)
         pthread_mutex_init(&data->fork[i], NULL);
         i++;
     }
+    pthread_mutex_init(&data->writing, NULL);
+    pthread_mutex_init(&data->death, NULL);
+    pthread_mutex_init(&data->meal, NULL);
+    pthread_mutex_init(&data->eat_count, NULL);
+    // pthread_mutex_init(&data->print, NULL);
 }
 
 void ft_parser(char **av, t_data *data)
@@ -69,5 +79,6 @@ void ft_parser(char **av, t_data *data)
         i++;
     }
     ft_init_mutex(data);
+    data->died = 0;
     // printf("%d\n", data->philo[1].data->nb_philo);
 }
