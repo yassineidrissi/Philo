@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:38:50 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/09 01:00:20 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/09 04:51:29 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void* start_thread(void* arg)
     t_philo *philo = (t_philo*)arg;
 
     if (philo->id % 2 == 0)
-        usleep(200000);
+        usleep(100);
     while(1)
     {
         // printf("philo %d :i'm take 1\n", philo->id); 
@@ -72,6 +72,31 @@ void init_threads(t_data * data)
         pthread_join(data->threads[i], NULL);
      
 }
+
+void ft_monitoring(t_data *data)
+{
+    while(1)
+    {
+        pthread_mutex_lock(&data->eat_count);
+		eat_c = philo->data->eat_count;
+		pthread_mutex_unlock(&philo->data->eat_count_lock);
+		pthread_mutex_lock(&philo->last_meal_lock);
+		last_meal = philo->last_meal;
+		pthread_mutex_unlock(&philo->last_meal_lock);
+		if (philo_get_time() - philo->data->init_time - last_meal >= \
+			philo->data->die_time || eat_c == \
+			philo->data->philo_count * philo->data->repeat_count)
+		{
+			pthread_mutex_lock(&philo->data->died_lock);
+			philo->data->died = 1;
+			pthread_mutex_unlock(&philo->data->died_lock);
+			if (eat_c != philo->data->philo_count * philo->data->repeat_count)
+				philo_timestamp(start, PHILO_DIE, 0);
+			return (NULL);
+		}
+    }
+}
+
 int main(int ac, char **av)
 {
     t_data data;
@@ -80,5 +105,6 @@ int main(int ac, char **av)
         handl_errors(1);
     ft_parser(av, &data);
     init_threads(&data);
+    // ft_monitoring(&data);
     printf("im working ");
 }

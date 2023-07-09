@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:05:18 by yaidriss          #+#    #+#             */
-/*   Updated: 2023/07/09 00:55:31 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/09 03:29:31 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	philo_timestamp(t_philo *philo, char *action)
 	time = philo_get_time() - philo->data->init_time;
 	if (philo->nb_meals != philo->data->max_meals && (!died || action[7] == 'd'))
 	{
-		printf("[\033[1;39m%06u\033[0;39m]  \033[1;96m%03d  \033[0;39m%s\n", \
+		printf("\033[1;39m%06u\033[0;39m  \033[1;96m%03d  \033[0;39m%s\n", \
 			time, philo->id + 1, action);
 	}
 	if (action[10] == 'e')
