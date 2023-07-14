@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:42:31 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/09 01:01:56 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:30:24 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_philo
 {
     int id;
     int nb_meals;
+    unsigned long last_meal;
     struct s_data *data;
 }t_philo;
 
@@ -51,7 +52,7 @@ typedef struct s_data
     pthread_mutex_t	meal;
 	pthread_mutex_t	writing;
     pthread_mutex_t	death;
-    pthread_mutex_t eat_count;
+    pthread_mutex_t lock;
     t_philo philo[250];
 }t_data;
 

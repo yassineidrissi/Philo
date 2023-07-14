@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:38:50 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/13 20:39:17 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:31:32 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,15 @@ void* start_thread(void* arg)
         usleep(100);
     while(1)
     {
-        // printf("philo %d :i'm take 1\n", philo->id); 
         pthread_mutex_lock(&philo->data->fork[philo->id]);
-        // printf("philo %d :i'm take 2\n", philo->id);
         pthread_mutex_lock(&philo->data->fork[(philo->id + 1) % philo->data->nb_philo]);
         philo_timestamp(philo, PHILO_TAKE_FORK);
-        ft_eat(philo);//!need to craate my own speep function
-        // printf("philo %d :i'm untake 1\n", philo->id);
+        philo_timestamp(philo, PHILO_EAT);//!need to craate my own speep function
         pthread_mutex_unlock(&philo->data->fork[philo->id]);
-        // printf("philo %d :i'm untake 2\n", philo->id);
         pthread_mutex_unlock(&philo->data->fork[(philo->id + 1) % philo->data->nb_philo]);
-        ft_sleep(philo);
-        ft_think(philo);
+        philo_timestamp(philo, PHILO_SLEEP);
+        ft_usleep(philo->data->tm_sleep);
+        philo_timestamp(philo, PHILO_THINK);
     }
     return NULL;
 }
@@ -60,8 +57,9 @@ void init_threads(t_data * data)
     i = -1;
     while (++i < data->nb_philo)
     {
+        data->philo[i].last_meal = get_time();
         pthread_create(data->threads + i, NULL, start_thread, data->philo + i);
-        usleep(100);
+        // usleep(100);
     }
         //! if there is a probleme sleep also here 
         // Pass the t_philo struct as the argument to the philosopher function
