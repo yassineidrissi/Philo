@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:38:50 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/09 04:51:29 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/13 20:39:17 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,29 +73,29 @@ void init_threads(t_data * data)
      
 }
 
-void ft_monitoring(t_data *data)
-{
-    while(1)
-    {
-        pthread_mutex_lock(&data->eat_count);
-		eat_c = philo->data->eat_count;
-		pthread_mutex_unlock(&philo->data->eat_count_lock);
-		pthread_mutex_lock(&philo->last_meal_lock);
-		last_meal = philo->last_meal;
-		pthread_mutex_unlock(&philo->last_meal_lock);
-		if (philo_get_time() - philo->data->init_time - last_meal >= \
-			philo->data->die_time || eat_c == \
-			philo->data->philo_count * philo->data->repeat_count)
-		{
-			pthread_mutex_lock(&philo->data->died_lock);
-			philo->data->died = 1;
-			pthread_mutex_unlock(&philo->data->died_lock);
-			if (eat_c != philo->data->philo_count * philo->data->repeat_count)
-				philo_timestamp(start, PHILO_DIE, 0);
-			return (NULL);
-		}
-    }
-}
+// void ft_monitoring(t_data *data)
+// {
+//     while(1)
+//     {
+//         pthread_mutex_lock(&data->eat_count);
+// 		eat_c = philo->data->eat_count;
+// 		pthread_mutex_unlock(&philo->data->eat_count_lock);
+// 		pthread_mutex_lock(&philo->last_meal_lock);
+// 		last_meal = philo->last_meal;
+// 		pthread_mutex_unlock(&philo->last_meal_lock);
+// 		if (philo_get_time() - philo->data->init_time - last_meal >= \
+// 			philo->data->die_time || eat_c == \
+// 			philo->data->philo_count * philo->data->repeat_count)
+// 		{
+// 			pthread_mutex_lock(&philo->data->died_lock);
+// 			philo->data->died = 1;
+// 			pthread_mutex_unlock(&philo->data->died_lock);
+// 			if (eat_c != philo->data->philo_count * philo->data->repeat_count)
+// 				philo_timestamp(start, PHILO_DIE);
+// 			return (NULL);
+// 		}
+//     }
+// }
 
 int main(int ac, char **av)
 {
