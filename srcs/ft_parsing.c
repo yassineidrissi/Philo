@@ -79,6 +79,6 @@ void ft_parser(char **av, t_data *data)
         data->philo[i].nb_meals = 0;
         i++;
     }
-    data->died = 0;
+    data->died = false;
     // printf("%d\n", data->philo[1].data->nb_philo);
 }

@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 # define PHILO_EAT "\033[1;93mis eating\033[0;39m"
 # define PHILO_SLEEP "\033[1;95mis sleeping\033[0;39m"
@@ -33,7 +34,7 @@ typedef struct s_philo
 {
     int id;
     int nb_meals;
-    unsigned long last_meal;
+    useconds_t last_meal;
     struct s_data *data;
 }t_philo;
 
@@ -43,8 +44,8 @@ typedef struct s_data
     int nb_philo;
     int max_meals;
     int tm_sleep;
-    int tm_eat;
-    int died;
+    useconds_t tm_eat;
+    bool died;
     unsigned long tm_die;
     unsigned long last_meal;
     pthread_t threads[250];    
@@ -63,7 +64,7 @@ void ft_fill_params_master(char **av, t_data *data);
 void ft_fill_params_slive(t_data *data, char **av, int i);
 void* start_thread(void* arg);
 void init_threads(t_data * data);
-useconds_t get_time(void);
+// useconds_t get_time(void);
 int ft_usleep(useconds_t time);
 void philo_timestamp(t_philo *philo, char *action);
 useconds_t	philo_get_time(void);
