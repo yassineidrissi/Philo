@@ -52,21 +52,33 @@ void* start_thread(void* arg)
 
 void ft_monitoring(t_data *data)
 {
-    int i = -1;
-    while(1)
+    int i;
+    useconds_t eat_c;
+    int meals;
+    
+    i = -1;
+    while(++i < data->nb_philo)
     {
         pthread_mutex_lock(&data->meal);
-        if (data->philo[i % data->nb_philo].last_meal >= data->tm_eat || data->philo[++i % data->nb_philo].nb_meals >= data->max_meals)
+        eat_c = philo_get_time() - data->philo[i].last_meal - data->init_time - data->tm_die;
+        meals = data->philo[i].nb_meals;
+        pthread_mutex_unlock(&data->meal);
+        pthread_mutex_unlock(&data->meal);
+        printf("im here the last meal is %d and tm_eat is %d, nb meal is %d\n", eat_c, data->philo[i].nb_meals, meals);
+        ft_usleep(100);
+        if (eat_c < 0 || ( data->max_meals != -1 && meals >= data->max_meals))
         {
-            printf("im here the last meal is %d and tm_eat is %d, nb meal is %d\n",data->philo[i % data->nb_philo].last_meal, data->tm_eat, data->philo[i % data->nb_philo].nb_meals);
+            // meals = data->philo[i % data->nb_philo].nb_meals;
             pthread_mutex_lock(&data->lock);
             data->died = true;
             pthread_mutex_unlock(&data->lock);
-            pthread_mutex_lock(&data->writing);
+            // pthread_mutex_lock(&data->writing);
+            // printf("make im here\n");
             philo_timestamp(&data->philo[i], PHILO_DIE);
-            pthread_mutex_unlock(&data->writing);
+            // pthread_mutex_unlock(&data->writing);
         }
-        pthread_mutex_unlock(&data->meal);
+        if (i == data->nb_philo - 1)
+            i = -1;
         // pthread_mutex_lock(&data->eat_count);
 		// eat_c = philo->data->eat_count;
 		// pthread_mutex_unlock(&philo->data->eat_count_lock);
@@ -94,7 +106,7 @@ void init_threads(t_data * data)
     i = -1;
     while (++i < data->nb_philo)
     {
-        data->philo[i].last_meal = philo_get_time();
+        data->philo[i].last_meal = 0;
         pthread_create(data->threads + i, NULL, start_thread, data->philo + i);
         // usleep(100);
     }
@@ -115,7 +127,7 @@ int main(int ac, char **av)
 
     if (ac != 6 && ac != 5)
         handl_errors(1);
-    ft_parser(av, &data);
+    ft_parser(ac ,av, &data);
     init_threads(&data);
     // ft_monitoring(&data);
     printf("im working ");

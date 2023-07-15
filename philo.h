@@ -46,7 +46,7 @@ typedef struct s_data
     int tm_sleep;
     useconds_t tm_eat;
     bool died;
-    unsigned long tm_die;
+    useconds_t tm_die;
     unsigned long last_meal;
     pthread_t threads[250];    
     pthread_mutex_t fork[250];
@@ -58,10 +58,10 @@ typedef struct s_data
 }t_data;
 
 //********philo_srcs************///
-void ft_parser(char ** av, t_data *data);
+void ft_parser(int ac, char ** av, t_data *data);
 void handl_errors(int i);
-void ft_fill_params_master(char **av, t_data *data);
-void ft_fill_params_slive(t_data *data, char **av, int i);
+void ft_fill_params_master(int ac, char **av, t_data *data);
+void ft_fill_params_slive(int ac, t_data *data, char **av, int i);
 void* start_thread(void* arg);
 void init_threads(t_data * data);
 // useconds_t get_time(void);

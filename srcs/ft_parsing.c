@@ -12,7 +12,7 @@
 
 #include "../philo.h"
 
-void ft_fill_params_slive(t_data *data, char **av, int i)
+void ft_fill_params_slive(int ac ,t_data *data, char **av, int i)
 {
     if (i == 1)
         data->nb_philo = ft_atoi(av[i]);
@@ -20,30 +20,30 @@ void ft_fill_params_slive(t_data *data, char **av, int i)
         data->tm_die = ft_atoi(av[i]);
     else if (i == 3)
         data->tm_eat = ft_atoi(av[i]);
-    else if (i == 4 && !av[i + 1])
+    else if (i == 4 && ac == 6)
         data->tm_sleep = ft_atoi(av[i]);
-    else if (i == 4)
+    else if (i == 4 && ac == 5)
     {
         data->tm_sleep = ft_atoi(av[i]);
         data->max_meals = -1;
     }
-    else
+    else if (i == 5)
         data->max_meals = ft_atoi(av[i]);    
 }
 
-void ft_fill_params_master(char **av, t_data *data)
+void ft_fill_params_master(int ac, char **av, t_data *data)
 {
     int i;
     
     i = 0;
-    while (av[++i])
+    while (++i < ac)
     {
         if (!ft_strisdigit(av[i]))
             handl_errors(1);
         else
-            ft_fill_params_slive(data, av, i);
+            ft_fill_params_slive(ac, data, av, i);
     }
-    if (data->nb_philo < 2 || data->nb_philo > 200 || data->max_meals < 0 || data->tm_die < 0 || data->tm_eat < 0 || data->tm_sleep < 0)
+    if (data->nb_philo < 2 || data->nb_philo > 200 || data->max_meals < -1 || data->tm_die < 0 || data->tm_eat < 0 || data->tm_sleep < 0)
         handl_errors(1);
 }
 
@@ -64,12 +64,12 @@ void ft_init_mutex(t_data *data)
     // pthread_mutex_init(&data->print, NULL);
 }
 
-void ft_parser(char **av, t_data *data)
+void ft_parser(int ac, char **av, t_data *data)
 {
     int i;
 
     i = 0;
-    ft_fill_params_master(av, data);
+    ft_fill_params_master(ac ,av, data);
     ft_init_mutex(data);
     while(i < data->nb_philo)
     {
@@ -80,5 +80,6 @@ void ft_parser(char **av, t_data *data)
         i++;
     }
     data->died = false;
+    data->init_time = philo_get_time();
     // printf("%d\n", data->philo[1].data->nb_philo);
 }
