@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:57:29 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/14 18:25:11 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:30:55 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ void ft_parser(int ac, char **av, t_data *data)
         i++;
     }
     data->died = false;
-    data->init_time = philo_get_time();
+    // data->init_time = philo_get_time();
     // printf("%d\n", data->philo[1].data->nb_philo);
 }

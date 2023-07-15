@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:38:50 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/14 18:31:32 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/15 21:07:42 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@
 //     ft_usleep(philo->data->tm_eat);
 // }
 
-void* start_thread(void* arg)
+void*   start_thread(void* arg)
 {
     t_philo *philo = (t_philo*)arg;
 
+     
     if (philo->id % 2 == 0)
         usleep(100);
     while(1)
@@ -41,6 +42,7 @@ void* start_thread(void* arg)
         pthread_mutex_lock(&philo->data->fork[(philo->id + 1) % philo->data->nb_philo]);
         philo_timestamp(philo, PHILO_TAKE_FORK);
         philo_timestamp(philo, PHILO_EAT);//!need to craate my own speep function
+        philo->last_meal = philo_get_time();
         pthread_mutex_unlock(&philo->data->fork[philo->id]);
         pthread_mutex_unlock(&philo->data->fork[(philo->id + 1) % philo->data->nb_philo]);
         philo_timestamp(philo, PHILO_SLEEP);
@@ -60,11 +62,11 @@ void ft_monitoring(t_data *data)
     while(++i < data->nb_philo)
     {
         pthread_mutex_lock(&data->meal);
-        eat_c = philo_get_time() - data->philo[i].last_meal - data->init_time - data->tm_die;
+        eat_c = philo_get_time() - data->philo[i].last_meal - data->tm_die;
         meals = data->philo[i].nb_meals;
         pthread_mutex_unlock(&data->meal);
         pthread_mutex_unlock(&data->meal);
-        printf("im here the last meal is %d and tm_eat is %d, nb meal is %d\n", eat_c, data->philo[i].nb_meals, meals);
+        printf("im here the eat_c is %d and last_meal is %d, and philo id is %d\n", eat_c, data->philo[i].last_meal, data->philo[i].id);
         ft_usleep(100);
         if (eat_c < 0 || ( data->max_meals != -1 && meals >= data->max_meals))
         {
