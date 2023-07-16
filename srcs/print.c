@@ -29,8 +29,10 @@ void	philo_timestamp(t_philo *philo, char *action)
 	pthread_mutex_lock(&philo->data->lock);
 	if (action[10] == 'd')
 	{
+		pthread_mutex_lock(&philo->data->writing);
 		printf("\033[1;39m%06u\033[0;39m  \033[1;96m%03d  \033[0;39m%s\n", \
 			time, philo->id + 1, action);
+		pthread_mutex_unlock(&philo->data->writing);
 		return;
 	}
 	if(action[10] == 'e')
@@ -41,7 +43,7 @@ void	philo_timestamp(t_philo *philo, char *action)
 		ft_usleep(philo->data->tm_eat);
 		pthread_mutex_lock(&philo->data->lock);
 		philo->last_meal = philo_get_time();
-		// pthread_mutex_unlock(&philo->data->lock);
+		pthread_mutex_unlock(&philo->data->lock);
 	}
 	// else
 	pthread_mutex_unlock(&philo->data->lock);

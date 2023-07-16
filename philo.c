@@ -40,9 +40,11 @@ void*   start_thread(void* arg)
     {
         pthread_mutex_lock(&philo->data->fork[philo->id]);
         pthread_mutex_lock(&philo->data->fork[(philo->id + 1) % philo->data->nb_philo]);
+        pthread_mutex_lock(&philo->data->lock);
         philo_timestamp(philo, PHILO_TAKE_FORK);
+        pthread_mutex_unlock(&philo->data->lock);
         philo_timestamp(philo, PHILO_EAT);//!need to craate my own speep function
-        philo->last_meal = philo_get_time();
+        // philo->last_meal = philo_get_time();
         pthread_mutex_unlock(&philo->data->fork[philo->id]);
         pthread_mutex_unlock(&philo->data->fork[(philo->id + 1) % philo->data->nb_philo]);
         philo_timestamp(philo, PHILO_SLEEP);
@@ -70,13 +72,13 @@ void ft_monitoring(t_data *data)
         ft_usleep(100);
         if (eat_c >=  data->tm_die || ( data->max_meals != -1 && meals >= data->max_meals))
         {
-            // printf("--%d , %d--\n", eat_c, data->philo[i].last_meal);
             pthread_mutex_lock(&data->writing);
             // meals = data->philo[i % data->nb_philo].nb_meals;
+            printf("--%d , %d--\n", eat_c, data->philo[i].last_meal);
             pthread_mutex_lock(&data->lock);
             data->died = true;
             pthread_mutex_unlock(&data->lock);
-            // pthread_mutex_lock(&data->writing);
+            pthread_mutex_lock(&data->writing);
             // printf("make im here\n");
             philo_timestamp(&data->philo[i], PHILO_DIE);
             pthread_mutex_unlock(&data->writing);
