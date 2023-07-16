@@ -25,24 +25,24 @@ void	philo_timestamp(t_philo *philo, char *action)
 		printf("\033[1;39m%06u\033[0;39m  \033[1;96m%03d  \033[0;39m%s\n", \
 			time, philo->id + 1, action);
 	}
-	pthread_mutex_unlock(&philo->data->writing);
 	pthread_mutex_lock(&philo->data->lock);
 	if (action[10] == 'd')
 	{
 		printf("\033[1;39m%06u\033[0;39m  \033[1;96m%03d  \033[0;39m%s\n", \
 			time, philo->id + 1, action);
-		exit(1);
+		return;
 	}
 	if(action[10] == 'e')
 	{
 		philo->nb_meals++;
-		printf("the nb_meals is %d and philo id: is %d\n", philo->nb_meals, philo->id + 1);
+		// printf("the nb_meals is %d and philo id: is %d\n", philo->nb_meals, philo->id + 1);
 		pthread_mutex_unlock(&philo->data->lock);
 		ft_usleep(philo->data->tm_eat);
 		pthread_mutex_lock(&philo->data->lock);
 		philo->last_meal = philo_get_time();
 		// pthread_mutex_unlock(&philo->data->lock);
 	}
+	pthread_mutex_unlock(&philo->data->writing);
 	// else
 	pthread_mutex_unlock(&philo->data->lock);
 }

@@ -33,7 +33,7 @@ void*   start_thread(void* arg)
 {
     t_philo *philo = (t_philo*)arg;
 
-     
+    //  philo->init_time = philo_get_time();
     if (philo->id % 2 == 0)
         usleep(100);
     while(1)
@@ -57,18 +57,18 @@ void ft_monitoring(t_data *data)
     int i;
     useconds_t eat_c;
     int meals;
-    
+    // useconds_t last_meal;
     i = -1;
+    
     while(++i < data->nb_philo)
     {
         pthread_mutex_lock(&data->meal);
-        eat_c = philo_get_time() - data->philo[i].last_meal - data->tm_die;
+        eat_c = philo_get_time() - data->philo[i].last_meal;
         meals = data->philo[i].nb_meals;
         pthread_mutex_unlock(&data->meal);
-        pthread_mutex_unlock(&data->meal);
-        printf("im here the eat_c is %d and last_meal is %d, and philo id is %d\n", eat_c, data->philo[i].last_meal, data->philo[i].id);
+        // printf("im here the eat_c is %d and last_meal is %d, and philo id is %d\n", eat_c, data->philo[i].last_meal, data->philo[i].id);
         ft_usleep(100);
-        if (eat_c < 0 || ( data->max_meals != -1 && meals >= data->max_meals))
+        if (eat_c <  data->tm_die|| ( data->max_meals != -1 && meals >= data->max_meals))
         {
             // meals = data->philo[i % data->nb_philo].nb_meals;
             pthread_mutex_lock(&data->lock);
@@ -77,6 +77,7 @@ void ft_monitoring(t_data *data)
             // pthread_mutex_lock(&data->writing);
             // printf("make im here\n");
             philo_timestamp(&data->philo[i], PHILO_DIE);
+            return ;
             // pthread_mutex_unlock(&data->writing);
         }
         if (i == data->nb_philo - 1)
@@ -112,14 +113,10 @@ void init_threads(t_data * data)
         pthread_create(data->threads + i, NULL, start_thread, data->philo + i);
         // usleep(100);
     }
-        //! if there is a probleme sleep also here 
-        // Pass the t_philo struct as the argument to the philosopher function
-    ft_monitoring(data);
+    //! if there is a probleme sleep also here 
+    // Pass the t_philo struct as the argument to the philosopher function
     // Wait for the threads to finish
-    i = -1;
-    while (++i < data->nb_philo)
-        pthread_join(data->threads[i], NULL);
-     
+    ft_monitoring(data);
 }
 
 
@@ -130,7 +127,8 @@ int main(int ac, char **av)
     if (ac != 6 && ac != 5)
         handl_errors(1);
     ft_parser(ac ,av, &data);
+    printf("initing threads\n");
     init_threads(&data);
     // ft_monitoring(&data);
-    printf("im working ");
+    // printf("im working ");
 }

@@ -36,7 +36,7 @@ void ft_fill_params_master(int ac, char **av, t_data *data)
     int i;
     
     i = 0;
-    while (++i < ac)
+        while (++i < ac)
     {
         if (!ft_strisdigit(av[i]))
             handl_errors(1);
@@ -71,6 +71,7 @@ void ft_parser(int ac, char **av, t_data *data)
     i = 0;
     ft_fill_params_master(ac ,av, data);
     ft_init_mutex(data);
+    data->init_time = philo_get_time();
     while(i < data->nb_philo)
     {
         // data->fork[i] = 1;
