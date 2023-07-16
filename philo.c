@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:38:50 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/15 21:07:42 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:25:51 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void*   start_thread(void* arg)
 {
     t_philo *philo = (t_philo*)arg;
 
-    //  philo->init_time = philo_get_time();
+     philo->last_meal = philo_get_time();
     if (philo->id % 2 == 0)
         usleep(100);
     while(1)
@@ -68,8 +68,10 @@ void ft_monitoring(t_data *data)
         pthread_mutex_unlock(&data->meal);
         // printf("im here the eat_c is %d and last_meal is %d, and philo id is %d\n", eat_c, data->philo[i].last_meal, data->philo[i].id);
         ft_usleep(100);
-        if (eat_c <  data->tm_die|| ( data->max_meals != -1 && meals >= data->max_meals))
+        if (eat_c >=  data->tm_die || ( data->max_meals != -1 && meals >= data->max_meals))
         {
+            // printf("--%d , %d--\n", eat_c, data->philo[i].last_meal);
+            pthread_mutex_lock(&data->writing);
             // meals = data->philo[i % data->nb_philo].nb_meals;
             pthread_mutex_lock(&data->lock);
             data->died = true;
@@ -77,6 +79,7 @@ void ft_monitoring(t_data *data)
             // pthread_mutex_lock(&data->writing);
             // printf("make im here\n");
             philo_timestamp(&data->philo[i], PHILO_DIE);
+            pthread_mutex_unlock(&data->writing);
             return ;
             // pthread_mutex_unlock(&data->writing);
         }
