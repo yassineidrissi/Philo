@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 20:05:18 by yaidriss          #+#    #+#             */
-/*   Updated: 2023/07/16 19:23:03 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:09:55 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	philo_timestamp(t_philo *philo, char *action)
 		// pthread_mutex_unlock(&philo->data->writing);
 		return;
 	}
-	else if (action[10] != 'e')
+	if (action[10] != 'd')
 	{
 		pthread_mutex_lock(&philo->data->writing);
 		printf("\033[1;39m%06u\033[0;39m  \033[1;96m%03d  \033[0;39m%s\n", \
@@ -39,7 +39,7 @@ void	philo_timestamp(t_philo *philo, char *action)
 		pthread_mutex_unlock(&philo->data->writing);
 	}
 	// pthread_mutex_lock(&philo->data->lock);
-	else if(action[10] == 'e')
+	if(action[10] == 'e')
 	{
 		pthread_mutex_lock(&philo->data->meal);
 		philo->nb_meals++;
