@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:38:50 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/16 19:25:51 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/19 17:49:37 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void*   start_thread(void* arg)
 
      philo->last_meal = philo_get_time();
     if (philo->id % 2 == 0)
-        usleep(100);
+        usleep(30000);
     while(1)
     {
         pthread_mutex_lock(&philo->data->fork[philo->id]);
         pthread_mutex_lock(&philo->data->fork[(philo->id + 1) % philo->data->nb_philo]);
         philo_timestamp(philo, PHILO_TAKE_FORK);
         philo_timestamp(philo, PHILO_EAT);//!need to craate my own speep function
-        philo->last_meal = philo_get_time();
+        // philo->last_meal = philo_get_time();
         pthread_mutex_unlock(&philo->data->fork[philo->id]);
         pthread_mutex_unlock(&philo->data->fork[(philo->id + 1) % philo->data->nb_philo]);
         philo_timestamp(philo, PHILO_SLEEP);
@@ -62,16 +62,17 @@ void ft_monitoring(t_data *data)
     
     while(++i < data->nb_philo)
     {
-        pthread_mutex_lock(&data->meal);
+        pthread_mutex_lock(&data->time);
         eat_c = philo_get_time() - data->philo[i].last_meal;
+        pthread_mutex_unlock(&data->time);
+        pthread_mutex_lock(&data->meal);
         meals = data->philo[i].nb_meals;
         pthread_mutex_unlock(&data->meal);
         // printf("im here the eat_c is %d and last_meal is %d, and philo id is %d\n", eat_c, data->philo[i].last_meal, data->philo[i].id);
-        ft_usleep(100);
         if (eat_c >=  data->tm_die || ( data->max_meals != -1 && meals >= data->max_meals))
         {
-            // printf("--%d , %d--\n", eat_c, data->philo[i].last_meal);
-            pthread_mutex_lock(&data->writing);
+            printf("--%d , %d--\n", eat_c, data->philo[i].last_meal);
+            // pthread_mutex_lock(&data->writing);
             // meals = data->philo[i % data->nb_philo].nb_meals;
             pthread_mutex_lock(&data->lock);
             data->died = true;
@@ -85,6 +86,7 @@ void ft_monitoring(t_data *data)
         }
         if (i == data->nb_philo - 1)
             i = -1;
+        ft_usleep(100);
         // pthread_mutex_lock(&data->eat_count);
 		// eat_c = philo->data->eat_count;
 		// pthread_mutex_unlock(&philo->data->eat_count_lock);
@@ -115,6 +117,7 @@ void init_threads(t_data * data)
         data->philo[i].last_meal = 0;
         pthread_create(data->threads + i, NULL, start_thread, data->philo + i);
         // usleep(100);
+        pthread_detach(*(data->threads + i));
     }
     //! if there is a probleme sleep also here 
     // Pass the t_philo struct as the argument to the philosopher function
@@ -130,7 +133,7 @@ int main(int ac, char **av)
     if (ac != 6 && ac != 5)
         handl_errors(1);
     ft_parser(ac ,av, &data);
-    printf("initing threads\n");
+    printf("initing threads the value of tm to eat is %d and for tm to sleep is %d\n", data.tm_die , data.tm_sleep);
     init_threads(&data);
     // ft_monitoring(&data);
     // printf("im working ");

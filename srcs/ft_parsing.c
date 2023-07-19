@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:57:29 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/16 19:27:18 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:42:44 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void ft_init_mutex(t_data *data)
     pthread_mutex_init(&data->death, NULL);
     pthread_mutex_init(&data->meal, NULL);
     pthread_mutex_init(&data->lock, NULL);
+    pthread_mutex_init(&data->time, NULL);
     // pthread_mutex_init(&data->print, NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yaidriss <yaidriss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 23:42:31 by yassine           #+#    #+#             */
-/*   Updated: 2023/07/14 18:30:24 by yaidriss         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:40:01 by yaidriss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_data
 	pthread_mutex_t	writing;
     pthread_mutex_t	death;
     pthread_mutex_t lock;
+    pthread_mutex_t time;
     t_philo philo[250];
 }t_data;
 
