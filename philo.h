@@ -54,6 +54,7 @@ typedef struct s_data
 	pthread_mutex_t	writing;
     pthread_mutex_t	death;
     pthread_mutex_t lock;
+    pthread_mutex_t time;
     t_philo philo[250];
 }t_data;
 

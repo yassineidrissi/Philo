@@ -61,6 +61,7 @@ void ft_init_mutex(t_data *data)
     pthread_mutex_init(&data->death, NULL);
     pthread_mutex_init(&data->meal, NULL);
     pthread_mutex_init(&data->lock, NULL);
+    pthread_mutex_init(&data->time, NULL);
     // pthread_mutex_init(&data->print, NULL);
 }
 
@@ -71,7 +72,6 @@ void ft_parser(int ac, char **av, t_data *data)
     i = 0;
     ft_fill_params_master(ac ,av, data);
     ft_init_mutex(data);
-    data->init_time = philo_get_time();
     while(i < data->nb_philo)
     {
         // data->fork[i] = 1;
@@ -81,6 +81,7 @@ void ft_parser(int ac, char **av, t_data *data)
         i++;
     }
     data->died = false;
+    data->init_time = philo_get_time();
     // data->init_time = philo_get_time();
     // printf("%d\n", data->philo[1].data->nb_philo);
 }
